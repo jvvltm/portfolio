@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Javiera Leyton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --surface2: #1c1c1c;
+    --border: #2a2a2a;
+    --accent: #c8f060;
+    --accent2: #60f0c8;
+    --text: #f0ede6;
+    --muted: #6b6b6b;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --mono: 'DM Mono', 'Courier New', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-tag {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 1.0;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    max-width: 900px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-bio {
+    max-width: 480px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .btn-filled {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  .btn-filled:hover { background: transparent; color: var(--accent); }
+
+  /* ── SECTION ── */
+  section {
+    padding: 6rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  /* ── PROYECTOS ── */
+  #proyectos { background: var(--bg); }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  .project-card {
+    background: var(--bg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: background 0.2s;
+    cursor: default;
+  }
+
+  .project-card:hover { background: var(--surface); }
+
+  .project-num {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .project-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .project-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .project-links a {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .project-links a:hover { opacity: 0.7; }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--surface); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  .skill-group {
+    background: var(--surface);
+    padding: 1.5rem;
+    transition: background 0.2s;
+  }
+
+  .skill-group:hover { background: var(--surface2); }
+
+  .skill-group-title {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1rem;
+  }
+
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .skill-list li {
+    font-size: 13px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .skill-list li::before {
+    content: '—';
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  /* ── CONTACTO ── */
+  #contacto { background: var(--bg); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 2rem;
+  }
+
+  .contact-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .contact-text a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    transition: all 0.2s;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .contact-link span { color: var(--muted); font-size: 11px; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMACIONES ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero, section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#hero">Javiera Leyton</a>
+  <ul class="nav-links">
+    <li><a href="#proyectos">Proyectos</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-tag">Desarrollo de Software · Análisis de Datos · Disponible para proyectos</div>
+  <h1>Javiera Leyton<br><em>construye y analiza</em><br>con propósito.</h1>
+  <p class="hero-bio">
+    Desarrollo de software y analista de datos con background en administración y negocios. Me especializo en automatización, análisis y desarrollo web — una combinación que me permite entender el problema de negocio y diseñar la solución técnica adecuada.
+  </p>
+  <div class="hero-cta">
+    <a href="#proyectos" class="btn btn-filled">Ver proyectos</a>
+    <a href="#contacto" class="btn">Contacto</a>
+  </div>
+</section>
+
+<!-- ── PROYECTOS ── -->
+<section id="proyectos">
+  <div class="section-label">Trabajo selecto</div>
+  <h2>Proyectos</h2>
+
+  <div class="project-grid">
+
+    <!-- PROYECTO 1 -->
+    <div class="project-card reveal">
+      <span class="project-num">01</span>
+      <div class="project-title">Álbum Mundial 2026</div>
+      <p class="project-desc">
+        PWA para rastrear el álbum de figuritas del Mundial 2026. Marca cada lámina como tenida, faltante o repetida, visualiza el progreso por selección con barras de avance, consulta un resumen global del álbum y genera una lista de intercambios exportable para compartir por WhatsApp. Persistencia en localStorage para no perder el progreso.
+      </p>
+      <div class="project-tags">
+        <span class="tag">React</span>
+        <span class="tag">Vite</span>
+        <span class="tag">TailwindCSS</span>
+        <span class="tag">PWA</span>
+        <span class="tag">localStorage</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jvvltm/album-mundial-2026" target="_blank">GitHub →</a>
+        <a href="https://album-mundial-2026-lyart.vercel.app/" target="_blank">Demo →</a>
+      </div>
+    </div>
+
+    <!-- PROYECTO 2 -->
+    <div class="project-card reveal">
+      <span class="project-num">02</span>
+      <div class="project-title">Claude Monitor</div>
+      <p class="project-desc">
+        App de bandeja del sistema para Windows que muestra en tiempo real el % de uso de Claude.ai en la barra de tareas. Icono circular que cambia de color según el consumo (verde → ámbar → rojo), tooltip con uso de las últimas 5 horas y 7 días, ventana de detalles con arcos de progreso animados, y auto-detección de sesión leyendo la cookie directamente desde el SQLite de Chrome o Edge.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">pystray</span>
+        <span class="tag">Pillow</span>
+        <span class="tag">tkinter</span>
+        <span class="tag">SQLite</span>
+        <span class="tag">PyInstaller</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jvvltm/claude-usage-monitor" target="_blank">GitHub →</a>
+      </div>
+    </div>
+
+    <!-- PROYECTO 3 -->
+    <div class="project-card reveal">
+      <span class="project-num">03</span>
+      <div class="project-title">SurgCards</div>
+      <p class="project-desc">
+        PWA de flashcards para residentes de cirugía. Mazos temáticos con cirugías precargadas (colecistectomía, apendicectomía, reemplazo valvular…), 3 tipos de tarjetas por cirugía: conceptos, instrumental y paso a paso. Algoritmo de repetición espaciada (SRS), modo quiz A/B/C/D, estadísticas de racha y retención. Funciona offline con persistencia en IndexedDB.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Next.js</span>
+        <span class="tag">React</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Tailwind CSS</span>
+        <span class="tag">IndexedDB</span>
+        <span class="tag">PWA</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jvvltm/surgicards" target="_blank">GitHub →</a>
+        <a href="https://surgicards.vercel.app/" target="_blank">Demo →</a>
+      </div>
+    </div>
+
+    <!-- PROYECTO 4 -->
+    <div class="project-card reveal">
+      <span class="project-num">04</span>
+      <div class="project-title">WhatsApp AI Bot</div>
+      <p class="project-desc">
+        Bot conversacional conectado a WhatsApp vía Meta Cloud API. Recibe mensajes por webhook, mantiene historial de conversación por número de teléfono (hasta 20 mensajes) y responde con personalidad propia — amigable, con humor y toque sarcástico — usando inferencia ultra-rápida con Llama 3.3 70B a través de Groq API.
+      </p>
+      <div class="project-tags">
+        <span class="tag">Node.js</span>
+        <span class="tag">Express</span>
+        <span class="tag">WhatsApp Cloud API</span>
+        <span class="tag">Groq API</span>
+        <span class="tag">Llama 3.3</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/jvvltm/whatssapp-ai-bot" target="_blank">GitHub →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-label">Stack técnico</div>
+  <h2>Habilidades</h2>
+
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Lenguajes</div>
+      <ul class="skill-list">
+        <li>JavaScript / TypeScript</li>
+        <li>Python</li>
+        <li>Java</li>
+        <li>C#</li>
+        <li>SQL</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Frontend</div>
+      <ul class="skill-list">
+        <li>React</li>
+        <li>Next.js</li>
+        <li>Tailwind CSS</li>
+        <li>HTML / CSS</li>
+        <li>PWA</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Backend & APIs</div>
+      <ul class="skill-list">
+        <li>Node.js / Express</li>
+        <li>Python / FastAPI</li>
+        <li>REST / Webhooks</li>
+        <li>WhatsApp Cloud API</li>
+        <li>Groq / Anthropic API</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Datos & BI</div>
+      <ul class="skill-list">
+        <li>Python / pandas</li>
+        <li>Power BI</li>
+        <li>Excel avanzado</li>
+        <li>SQL / SQLite</li>
+        <li>IndexedDB</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Herramientas</div>
+      <ul class="skill-list">
+        <li>Git / GitHub</li>
+        <li>Docker</li>
+        <li>Vercel</li>
+        <li>PyInstaller</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACTO ── -->
+<section id="contacto">
+  <div class="section-label">Hablemos</div>
+  <h2>Contacto</h2>
+
+  <div class="contact-grid">
+    <div class="contact-text reveal">
+      <p>
+        ¿Tienes un proyecto en mente o quieres conversar sobre oportunidades?
+        Escríbeme, respondo en menos de 24 horas.
+      </p>
+      <br>
+      <p>
+        También puedes encontrarme en
+        <a href="#">GitHub</a> y
+        <a href="#">LinkedIn</a>.
+      </p>
+    </div>
+
+    <div class="contact-links reveal">
+      <a href="mailto:leytonjaviera.m@gmail.com" class="contact-link">
+        leytonjaviera.m@gmail.com
+        <span>Email →</span>
+      </a>
+      <a href="https://github.com/jvvltm" class="contact-link" target="_blank">
+        github.com/jvvltm
+        <span>GitHub →</span>
+      </a>
+      <a href="https://linkedin.com/in/javiera-lm" class="contact-link" target="_blank">
+        linkedin.com/in/javiera-lm
+        <span>LinkedIn →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Javiera Leyton · Portfolio</span>
+  <span id="year"></span>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
